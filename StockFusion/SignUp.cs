@@ -145,7 +145,7 @@ namespace StockFusion
 
         private void roundedTextBox5_TextChanged(object? sender, EventArgs e)
         {
-            ValidatePassword(roundedTextBox5.Texts, roundedTextBox5);
+          //  ValidatePassword(roundedTextBox5.Texts, roundedTextBox5);
         }
 
         private void roundedTextBox6_TextChanged(object? sender, EventArgs e)
@@ -162,7 +162,40 @@ namespace StockFusion
 
         private void roundedButton1_Click(object? sender, EventArgs e)
         {
+            bool isValid = true;
+            labelEmptyFieldPrompt.Visible = false;
+            if (string.IsNullOrWhiteSpace(roundedTextBox1.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox2.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox3.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox4.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox5.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox6.Texts) ||
+                string.IsNullOrWhiteSpace(roundedTextBox7.Texts))
+            {
+                isValid = false;
+            }
+            
+            
 
+            // If any field is invalid, return early
+            if (!isValid)
+            {
+                labelEmptyFieldPrompt.Visible = true;
+                labelEmptyFieldPrompt.Text = "Please fill up requirements";
+                labelEmptyFieldPrompt.Location = new Point(328, 545);
+
+                return;
+            }
+            //labelEmptyFieldPrompt.Visible = false;
+
+            // If all fields are valid, proceed with confirmation
+            DialogResult result = MessageBox.Show("Are you sure to confirm?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                SignIn signIn = new SignIn();
+                signIn.Show();
+                this.Hide();
+            }
         }
 
         private void checkBox1_CheckedChanged(object? sender, EventArgs e)
@@ -221,7 +254,7 @@ namespace StockFusion
 
         private void TogglePasswordVisibility(bool showPassword)
         {
-            roundedTextBox5.PasswordChar = !showPassword;
+           // roundedTextBox5.PasswordChar = !showPassword;
             roundedTextBox6.PasswordChar = !showPassword;
             roundedTextBox7.PasswordChar = !showPassword;
         }
