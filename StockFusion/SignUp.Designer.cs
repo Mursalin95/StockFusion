@@ -1,4 +1,4 @@
-﻿namespace StockFusion
+namespace StockFusion
 {
     partial class SignUp
     {
@@ -13,16 +13,22 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing) 
+            if (disposing)
             {
                 if (components != null)
                 {
                     components.Dispose();
                     components = null;
                 }
-               
             }
-           base.Dispose(disposing);
+            try
+            {
+                base.Dispose(disposing);
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+            }
         }
 
         #region Windows Form Designer generated code
@@ -46,6 +52,7 @@
             labelFirstNamePrompt = new Label();
             labelLastNamePrompt = new Label();
             labelInvalidInputPrompt = new Label();
+            labelEmptyFieldPrompt = new Label();
             textBox1 = new TextBox();
             SuspendLayout();
             // 
@@ -175,7 +182,7 @@
             roundedTextBox6.Texts = "";
             roundedTextBox6.TextChanged += roundedTextBox6_TextChanged;
             roundedTextBox6.CursorChanged += Form_Click;
-           // roundedTextBox6.MouseClick += roundedTextBox6_MouseClick;
+            // roundedTextBox6.MouseClick += roundedTextBox6_MouseClick;
             // 
             // roundedTextBox7
             // 
@@ -264,6 +271,15 @@
             labelInvalidInputPrompt.Name = "labelInvalidInputPrompt";
             labelInvalidInputPrompt.Size = new Size(0, 15);
             labelInvalidInputPrompt.TabIndex = 13;
+            //
+            // labelEmptyFieldPrompt
+            //
+            labelEmptyFieldPrompt.AutoSize = true;
+            labelEmptyFieldPrompt.BackColor = Color.Transparent;
+            labelEmptyFieldPrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelEmptyFieldPrompt.Name = "labelEmptyFieldPrompt";
+            labelEmptyFieldPrompt.Size = new Size(0, 15);
+            labelEmptyFieldPrompt.TabIndex = 15;
             // 
             // textBox1
             // 
@@ -289,6 +305,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 600);
             Controls.Add(textBox1);
+            Controls.Add(labelEmptyFieldPrompt);
             Controls.Add(labelInvalidInputPrompt);
             Controls.Add(labelLastNamePrompt);
             Controls.Add(labelFirstNamePrompt);
@@ -331,5 +348,6 @@
         private Label labelLastNamePrompt;
         private Label labelInvalidInputPrompt;
         private TextBox textBox1;
+        private Label labelEmptyFieldPrompt;
     }
 }
