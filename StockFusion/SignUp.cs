@@ -1,13 +1,22 @@
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+
+
+
 
 namespace StockFusion
 {
     public partial class SignUp : Form
     {
-        public SignUp()
+
+        private string usertype;
+        public SignUp(string usertype)
         {
             InitializeComponent();
             this.Click += new EventHandler(Form_Click);
+            this.usertype = usertype;
 
             // Add event handlers for password fields
             roundedTextBox6.MouseEnter += new EventHandler(PasswordField_MouseEnter);
@@ -23,6 +32,9 @@ namespace StockFusion
             // Add TextChanged event handlers for password fields
             roundedTextBox6.TextChanged += new EventHandler(PasswordField_TextChanged);
             roundedTextBox7.TextChanged += new EventHandler(PasswordField_TextChanged);
+           
+
+
         }
 
         private void Form1_Load(object? sender, EventArgs e)
@@ -42,6 +54,7 @@ namespace StockFusion
             if (!string.IsNullOrWhiteSpace(roundedTextBox1.Texts) && !ValidName(roundedTextBox1.Texts, roundedTextBox1))
             {
                 labelInvalidInputPrompt.Text = "Please enter alphabet only";
+                labelInvalidInputPrompt.Location = new Point(286, 107);
                 labelInvalidInputPrompt.Visible = true;
                 labelFirstNamePrompt.Visible = false;
                 labelLastNamePrompt.Visible = false;
@@ -78,6 +91,7 @@ namespace StockFusion
             if (!string.IsNullOrWhiteSpace(roundedTextBox2.Texts) && !ValidName(roundedTextBox2.Texts, roundedTextBox2))
             {
                 labelInvalidInputPrompt.Text = "Please enter alphabet only";
+                labelInvalidInputPrompt.Location = new Point(286, 157);
                 labelInvalidInputPrompt.Visible = true;
                 labelFirstNamePrompt.Visible = false;
                 labelLastNamePrompt.Visible = false;
@@ -145,8 +159,92 @@ namespace StockFusion
 
         private void roundedTextBox5_TextChanged(object? sender, EventArgs e)
         {
-          //  ValidatePassword(roundedTextBox5.Texts, roundedTextBox5);
+            if (usertype == "Admin")
+            {
+                if (!Regex.IsMatch(roundedTextBox5.Texts, @"^AD@\d{4}$"))
+                {
+                    labelInvalidInputPrompt.Text = "Enter AD-#### For example,(AD-1234)";
+                    labelInvalidInputPrompt.Location = new Point(286, 328);
+                    labelInvalidInputPrompt.Visible = true;
+                }
+                else
+                {
+                    labelInvalidInputPrompt.Visible = false;
+                }
+            }
+            else if (usertype == "FinancialManager")
+            {
+                if (!Regex.IsMatch(roundedTextBox5.Texts, @"^FM@\d{4}$"))
+                {
+                    labelInvalidInputPrompt.Text = "Enter FM-#### For example,(FM-1234)";
+                    labelInvalidInputPrompt.Location = new Point(286, 328);
+                    labelInvalidInputPrompt.Visible = true;
+                }
+                else
+                {
+                    labelInvalidInputPrompt.Visible = false;
+                }
+            }
+            if (usertype == "Manager")
+            {
+                if (!Regex.IsMatch(roundedTextBox5.Texts, @"^AD@\d{4}$"))
+                {
+                    labelInvalidInputPrompt.Text = "Enter MN-#### For example,(MN-1234)";
+                    labelInvalidInputPrompt.Location = new Point(286, 328);
+                    labelInvalidInputPrompt.Visible = true;
+                }
+                else
+                {
+                    labelInvalidInputPrompt.Visible = false;
+                }
+            }
+            if (usertype == "Customer")
+            {
+                if (!Regex.IsMatch(roundedTextBox5.Texts, @"^Customer@\d{4}$"))
+                {
+                    labelInvalidInputPrompt.Text = "Enter CS-#### For example,(CS-1234)";
+                    labelInvalidInputPrompt.Location = new Point(286, 328);
+                    labelInvalidInputPrompt.Visible = true;
+                }
+                else
+                {
+                    labelInvalidInputPrompt.Visible = false;
+                }
+            }
+
         }
+        private void CheckForDuplicateUserName(string userName)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-VET6LBO\MSSQLSERVER01;Initial Catalog=StockFusion;Integrated Security=True;TrustServerCertificate=True"))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [SignUp] WHERE [User Name] = @UserName", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserName", userName);
+                        int count = (int)cmd.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            labelInvalidInputPrompt.Text = "User name already exists.";
+                            labelInvalidInputPrompt.Location = new Point(286, 328);
+                            labelInvalidInputPrompt.Visible = true;
+                        }
+                        else
+                        {
+                            labelInvalidInputPrompt.Visible = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
 
         private void roundedTextBox6_TextChanged(object? sender, EventArgs e)
         {
@@ -164,44 +262,74 @@ namespace StockFusion
         {
             bool isValid = true;
             labelEmptyFieldPrompt.Visible = false;
+
+           
             if (string.IsNullOrWhiteSpace(roundedTextBox1.Texts) ||
                 string.IsNullOrWhiteSpace(roundedTextBox2.Texts) ||
                 string.IsNullOrWhiteSpace(roundedTextBox3.Texts) ||
                 string.IsNullOrWhiteSpace(roundedTextBox4.Texts) ||
-                string.IsNullOrWhiteSpace(roundedTextBox5.Texts) ||
                 string.IsNullOrWhiteSpace(roundedTextBox6.Texts) ||
                 string.IsNullOrWhiteSpace(roundedTextBox7.Texts))
             {
                 isValid = false;
             }
-            
-            
-
-            // If any field is invalid, return early
+            if (string.IsNullOrWhiteSpace(roundedTextBox5.Texts))
+            {
+                isValid = false;
+            }
             if (!isValid)
             {
                 labelEmptyFieldPrompt.Visible = true;
-                labelEmptyFieldPrompt.Text = "Please fill up requirements";
-                labelEmptyFieldPrompt.Location = new Point(328, 545);
-
+                labelEmptyFieldPrompt.Location = new Point(286, 428);
+                labelEmptyFieldPrompt.Text = "Please fill up requirements";   // If any field is invalid, return early
                 return;
             }
-            //labelEmptyFieldPrompt.Visible = false;
+            else
+            {
+             
+                labelEmptyFieldPrompt.Visible = false;    // Hide the message if all fields are valid
+            }
+        
 
-            // If all fields are valid, proceed with confirmation
             DialogResult result = MessageBox.Show("Are you sure to confirm?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                SignIn signIn = new SignIn();
-                signIn.Show();
-                this.Hide();
+                try
+                {
+                    string fullName = roundedTextBox1.Texts + " " + roundedTextBox2.Texts;
+
+                    using (SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-VET6LBO\MSSQLSERVER01;Initial Catalog=StockFusion;Integrated Security=True;TrustServerCertificate=True"))
+                    {
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand("INSERT INTO [dbo].[SignUp] " +
+                                     "([FullName], [Email], [Phonenumber], [UserName], [Password], [UserType]) " +
+                                        "VALUES (@FullName, @Email, @PhoneNumber, @UserName, @Password, @UserType)", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@FullName", fullName);
+                            cmd.Parameters.AddWithValue("@Email", roundedTextBox3.Texts);
+                            cmd.Parameters.AddWithValue("@PhoneNumber", roundedTextBox4.Texts);
+                            cmd.Parameters.AddWithValue("@UserName", roundedTextBox5.Texts);
+                            cmd.Parameters.AddWithValue("@Password", roundedTextBox6.Texts);
+                            cmd.Parameters.AddWithValue("@UserType", usertype);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    SignIn signIn = new SignIn();
+                    signIn.Show();
+                    this.Hide();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private void checkBox1_CheckedChanged(object? sender, EventArgs e)
-        {
-            TogglePasswordVisibility(checkBox1.Checked);
-        }
+
+
+      
 
         private void ValidatePassword(string password, CustomControls.RoundedTextBox.RoundedTextBox textBox)
         {
@@ -245,16 +373,19 @@ namespace StockFusion
                 else
                 {
                     textBox1.Visible = false;
-                   
+
                 }// Show textBox1 if passwords do not match and sender is roundedTextBox6 or roundedTextBox7
 
 
             }
         }
-
+        private void checkBox1_CheckedChanged(object? sender, EventArgs e)
+        {
+            TogglePasswordVisibility(checkBox1.Checked);
+        }
         private void TogglePasswordVisibility(bool showPassword)
         {
-           // roundedTextBox5.PasswordChar = !showPassword;
+            // roundedTextBox5.PasswordChar = !showPassword;
             roundedTextBox6.PasswordChar = !showPassword;
             roundedTextBox7.PasswordChar = !showPassword;
         }
@@ -273,6 +404,9 @@ namespace StockFusion
         {
             return Regex.IsMatch(number, @"^\d{11}$");
         }
+
+   
+
 
         private void PasswordField_MouseEnter(object? sender, EventArgs e)
         {
@@ -321,5 +455,10 @@ namespace StockFusion
                 ComparePasswords(sender);
             }
         }
+          
     }
+
+
+
+    
 }
