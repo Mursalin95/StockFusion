@@ -25,7 +25,7 @@ namespace StockFusion
             {
                 base.Dispose(disposing);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Handle or log the exception as needed
             }
@@ -65,6 +65,7 @@ namespace StockFusion
             roundedTextBox1.BorderRadius = 15;
             roundedTextBox1.BorderSize = 2;
             roundedTextBox1.Cursor = Cursors.IBeam;
+            roundedTextBox1.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox1.Location = new Point(286, 75);
             roundedTextBox1.Name = "roundedTextBox1";
             roundedTextBox1.PasswordChar = false;
@@ -86,6 +87,7 @@ namespace StockFusion
             roundedTextBox2.BorderRadius = 15;
             roundedTextBox2.BorderSize = 2;
             roundedTextBox2.Cursor = Cursors.IBeam;
+            roundedTextBox2.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox2.Location = new Point(286, 125);
             roundedTextBox2.Name = "roundedTextBox2";
             roundedTextBox2.PasswordChar = false;
@@ -107,6 +109,7 @@ namespace StockFusion
             roundedTextBox3.BorderRadius = 15;
             roundedTextBox3.BorderSize = 2;
             roundedTextBox3.Cursor = Cursors.IBeam;
+            roundedTextBox3.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox3.Location = new Point(286, 180);
             roundedTextBox3.Name = "roundedTextBox3";
             roundedTextBox3.PasswordChar = false;
@@ -128,6 +131,7 @@ namespace StockFusion
             roundedTextBox4.BorderRadius = 15;
             roundedTextBox4.BorderSize = 2;
             roundedTextBox4.Cursor = Cursors.IBeam;
+            roundedTextBox4.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox4.Location = new Point(286, 233);
             roundedTextBox4.Name = "roundedTextBox4";
             roundedTextBox4.PasswordChar = false;
@@ -149,6 +153,7 @@ namespace StockFusion
             roundedTextBox5.BorderRadius = 15;
             roundedTextBox5.BorderSize = 2;
             roundedTextBox5.Cursor = Cursors.IBeam;
+            roundedTextBox5.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox5.Location = new Point(286, 292);
             roundedTextBox5.Name = "roundedTextBox5";
             roundedTextBox5.PasswordChar = false;
@@ -170,6 +175,7 @@ namespace StockFusion
             roundedTextBox6.BorderRadius = 15;
             roundedTextBox6.BorderSize = 2;
             roundedTextBox6.Cursor = Cursors.IBeam;
+            roundedTextBox6.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox6.Location = new Point(286, 349);
             roundedTextBox6.Name = "roundedTextBox6";
             roundedTextBox6.PasswordChar = true;
@@ -182,7 +188,6 @@ namespace StockFusion
             roundedTextBox6.Texts = "";
             roundedTextBox6.TextChanged += roundedTextBox6_TextChanged;
             roundedTextBox6.CursorChanged += Form_Click;
-            // roundedTextBox6.MouseClick += roundedTextBox6_MouseClick;
             // 
             // roundedTextBox7
             // 
@@ -193,6 +198,7 @@ namespace StockFusion
             roundedTextBox7.BorderRadius = 15;
             roundedTextBox7.BorderSize = 2;
             roundedTextBox7.Cursor = Cursors.IBeam;
+            roundedTextBox7.ForeColor = SystemColors.ActiveCaptionText;
             roundedTextBox7.Location = new Point(286, 399);
             roundedTextBox7.Name = "roundedTextBox7";
             roundedTextBox7.PasswordChar = true;
@@ -267,16 +273,17 @@ namespace StockFusion
             labelInvalidInputPrompt.AutoSize = true;
             labelInvalidInputPrompt.BackColor = Color.Transparent;
             labelInvalidInputPrompt.ForeColor = Color.FromArgb(179, 27, 27);
-            labelInvalidInputPrompt.Location = new Point(286, 107);
+            labelInvalidInputPrompt.Location = new Point(0, 0);
             labelInvalidInputPrompt.Name = "labelInvalidInputPrompt";
             labelInvalidInputPrompt.Size = new Size(0, 15);
             labelInvalidInputPrompt.TabIndex = 13;
-            //
+            // 
             // labelEmptyFieldPrompt
-            //
+            // 
             labelEmptyFieldPrompt.AutoSize = true;
             labelEmptyFieldPrompt.BackColor = Color.Transparent;
             labelEmptyFieldPrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelEmptyFieldPrompt.Location = new Point(0, 0);
             labelEmptyFieldPrompt.Name = "labelEmptyFieldPrompt";
             labelEmptyFieldPrompt.Size = new Size(0, 15);
             labelEmptyFieldPrompt.TabIndex = 15;
@@ -293,7 +300,7 @@ namespace StockFusion
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(224, 68);
             textBox1.TabIndex = 14;
-            textBox1.Text = "✅6 to 20 characters\r\n✅Can contain only letters, numbers and punctuation marks (except spaces)\r\n✅Contains at least two of the following: letters, numbers and symbols ";
+            textBox1.Text = "6 to 20 characters\r\nCan contain only letters, numbers and punctuation marks (except spaces)\r\nContains at least two of the following: letters, numbers and symbols ";
             textBox1.Visible = false;
             // 
             // SignUp
