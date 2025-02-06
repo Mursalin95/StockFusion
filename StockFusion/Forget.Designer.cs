@@ -1,4 +1,4 @@
-﻿namespace StockFusion
+namespace StockFusion
 {
     partial class Forget
     {
@@ -33,6 +33,7 @@
             roundedTextBox3 = new CustomControls.RoundedTextBox.RoundedTextBox();
             Checkbox1 = new CheckBox();
             roundedButton1 = new CustomControls.RoundedButton.RoundedButton();
+            labelInvalidPrompt = new Label();
             SuspendLayout();
             // 
             // roundedTextBox1
@@ -63,7 +64,7 @@
             roundedTextBox2.BorderSize = 2;
             roundedTextBox2.Location = new Point(137, 157);
             roundedTextBox2.Name = "roundedTextBox2";
-            roundedTextBox2.PasswordChar = false;
+            roundedTextBox2.PasswordChar = true;
             roundedTextBox2.PlaceholderColor = Color.Gray;
             roundedTextBox2.PlaceholderImage = null;
             roundedTextBox2.PlaceholderText = "New password";
@@ -71,6 +72,7 @@
             roundedTextBox2.TabIndex = 1;
             roundedTextBox2.TabStop = false;
             roundedTextBox2.Texts = "";
+            roundedTextBox2.TextChanged += roundedTextBox2_TextChanged;
             // 
             // roundedTextBox3
             // 
@@ -81,7 +83,7 @@
             roundedTextBox3.BorderSize = 2;
             roundedTextBox3.Location = new Point(137, 210);
             roundedTextBox3.Name = "roundedTextBox3";
-            roundedTextBox3.PasswordChar = false;
+            roundedTextBox3.PasswordChar = true;
             roundedTextBox3.PlaceholderColor = Color.Gray;
             roundedTextBox3.PlaceholderImage = null;
             roundedTextBox3.PlaceholderText = "Confirm password";
@@ -89,6 +91,7 @@
             roundedTextBox3.TabIndex = 2;
             roundedTextBox3.TabStop = false;
             roundedTextBox3.Texts = "";
+            roundedTextBox3.TextChanged += roundedTextBox3_TextChanged;
             // 
             // Checkbox1
             // 
@@ -100,6 +103,7 @@
             Checkbox1.TabStop = false;
             Checkbox1.Text = "Show Password";
             Checkbox1.UseVisualStyleBackColor = true;
+            Checkbox1.CheckedChanged += Checkbox1_CheckedChanged;
             // 
             // roundedButton1
             // 
@@ -121,6 +125,18 @@
             roundedButton1.TabIndex = 4;
             roundedButton1.TabStop = false;
             roundedButton1.TextColor = Color.White;
+            roundedButton1.Click += roundedButton1_Click;
+            // 
+            // labelInvalidPrompt
+            // 
+            labelInvalidPrompt.AutoSize = true;
+            labelInvalidPrompt.BackColor = Color.Transparent;
+            labelInvalidPrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelInvalidPrompt.Location = new Point(249, 120);
+            labelInvalidPrompt.Name = "labelInvalidPrompt";
+            labelInvalidPrompt.Size = new Size(0, 15);
+            labelInvalidPrompt.TabIndex = 5;
+            labelInvalidPrompt.Visible = false;
             // 
             // Forget
             // 
@@ -133,8 +149,11 @@
             Controls.Add(roundedTextBox3);
             Controls.Add(roundedTextBox2);
             Controls.Add(roundedTextBox1);
+            Controls.Add(labelInvalidPrompt);
             Name = "Forget";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Recovery";
+            Load += Forget_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -146,5 +165,6 @@
         private CustomControls.RoundedTextBox.RoundedTextBox roundedTextBox3;
         private CheckBox Checkbox1;
         private CustomControls.RoundedButton.RoundedButton roundedButton1;
+        private Label labelInvalidPrompt;
     }
 }
