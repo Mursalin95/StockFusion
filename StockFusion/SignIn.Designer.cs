@@ -1,4 +1,4 @@
-﻿namespace StockFusion
+namespace StockFusion
 {
     partial class SignIn
     {
@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SignIn));
             roundedTextBox1 = new CustomControls.RoundedTextBox.RoundedTextBox();
             roundedTextBox2 = new CustomControls.RoundedTextBox.RoundedTextBox();
             roundedButton1 = new CustomControls.RoundedButton.RoundedButton();
             roundedButton2 = new CustomControls.RoundedButton.RoundedButton();
             roundedButton3 = new CustomControls.RoundedButton.RoundedButton();
             Show = new CheckBox();
+            labelInvalidInputPrompt = new Label();
+            labelInvalidUserNamePrompt = new Label();
+            labelInvalidPasswordPrompt = new Label();
             SuspendLayout();
             // 
             // roundedTextBox1
@@ -72,6 +76,7 @@
             roundedTextBox2.TabIndex = 1;
             roundedTextBox2.TabStop = false;
             roundedTextBox2.Texts = "";
+            roundedTextBox2.TextChanged += roundedTextBox2_TextChanged;
             // 
             // roundedButton1
             // 
@@ -93,6 +98,7 @@
             roundedButton1.TabIndex = 2;
             roundedButton1.TabStop = false;
             roundedButton1.TextColor = Color.White;
+            roundedButton1.Click += roundedButton1_Click;
             // 
             // roundedButton2
             // 
@@ -104,6 +110,7 @@
             roundedButton2.BorderSize = 2;
             roundedButton2.ButtonImage = null;
             roundedButton2.ButtonText = " NEW USER? REGISTER";
+            roundedButton2.Cursor = Cursors.Hand;
             roundedButton2.Font = new Font("Segoe UI", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             roundedButton2.ForeColor = Color.Snow;
             roundedButton2.ImageAlign = ContentAlignment.MiddleCenter;
@@ -125,6 +132,7 @@
             roundedButton3.BorderSize = 2;
             roundedButton3.ButtonImage = null;
             roundedButton3.ButtonText = " FORGOT PASSWORD";
+            roundedButton3.Cursor = Cursors.Hand;
             roundedButton3.Font = new Font("Segoe UI", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             roundedButton3.ForeColor = Color.Snow;
             roundedButton3.ImageAlign = ContentAlignment.MiddleCenter;
@@ -150,6 +158,36 @@
             Show.UseVisualStyleBackColor = false;
             Show.CheckedChanged += Show_CheckedChanged;
             // 
+            // labelInvalidInputPrompt
+            // 
+            labelInvalidInputPrompt.AutoSize = true;
+            labelInvalidInputPrompt.BackColor = Color.Transparent;
+            labelInvalidInputPrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelInvalidInputPrompt.Location = new Point(249, 240);
+            labelInvalidInputPrompt.Name = "labelInvalidInputPrompt";
+            labelInvalidInputPrompt.Size = new Size(0, 15);
+            labelInvalidInputPrompt.TabIndex = 6;
+            // 
+            // labelInvalidUserNamePrompt
+            // 
+            labelInvalidUserNamePrompt.AutoSize = true;
+            labelInvalidUserNamePrompt.BackColor = Color.Transparent;
+            labelInvalidUserNamePrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelInvalidUserNamePrompt.Location = new Point(249, 120);
+            labelInvalidUserNamePrompt.Name = "labelInvalidUserNamePrompt";
+            labelInvalidUserNamePrompt.Size = new Size(0, 15);
+            labelInvalidUserNamePrompt.TabIndex = 7;
+            // 
+            // labelInvalidPasswordPrompt
+            // 
+            labelInvalidPasswordPrompt.AutoSize = true;
+            labelInvalidPasswordPrompt.BackColor = Color.Transparent;
+            labelInvalidPasswordPrompt.ForeColor = Color.FromArgb(179, 27, 27);
+            labelInvalidPasswordPrompt.Location = new Point(249, 200);
+            labelInvalidPasswordPrompt.Name = "labelInvalidPasswordPrompt";
+            labelInvalidPasswordPrompt.Size = new Size(0, 15);
+            labelInvalidPasswordPrompt.TabIndex = 8;
+            // 
             // SignIn
             // 
             AccessibleRole = AccessibleRole.Cursor;
@@ -165,15 +203,19 @@
             Controls.Add(roundedButton1);
             Controls.Add(roundedTextBox2);
             Controls.Add(roundedTextBox1);
+            Controls.Add(labelInvalidInputPrompt);
+            Controls.Add(labelInvalidUserNamePrompt);
+            Controls.Add(labelInvalidPasswordPrompt);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SignIn";
-            Text = "Sign in";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = " Sign in";
             Load += Form2_Load;
             ResumeLayout(false);
             PerformLayout();
         }
-
 
         #endregion
 
@@ -182,6 +224,9 @@
         private CustomControls.RoundedButton.RoundedButton roundedButton1;
         private CustomControls.RoundedButton.RoundedButton roundedButton2;
         private CustomControls.RoundedButton.RoundedButton roundedButton3;
-        private CheckBox Show;
+        private new CheckBox Show;
+        private Label labelInvalidInputPrompt;
+        private Label labelInvalidUserNamePrompt;
+        private Label labelInvalidPasswordPrompt;
     }
 }
