@@ -159,6 +159,7 @@ namespace StockFusion
                                     MessageBox.Show("Invalid UserType assigned. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     return;
                                 }
+                                InsertLogin(roundedTextBox1.Texts, roundedTextBox2.Texts, "Active");
                                 this.Hide();
                             }
                             else
@@ -166,7 +167,7 @@ namespace StockFusion
                                 MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
-                       
+
                     }
                     catch (Exception ex)
                     {
@@ -179,5 +180,25 @@ namespace StockFusion
                 }
             }
         }
+        private void InsertLogin(string userName, string password, string status)
+        {
+            string query = "INSERT INTO Login (Username, Password, Status) VALUES (@UserName, @Password, @Status)";
+
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@UserName", userName);
+                cmd.Parameters.AddWithValue("@Password", password);
+                cmd.Parameters.AddWithValue("@Status", status);
+
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
     }
 }
