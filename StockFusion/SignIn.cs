@@ -13,11 +13,14 @@ using CustomControls.RoundedTextBox;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using WindowsFormsApp1.Dashboard;
 
 namespace StockFusion
 {
     public partial class SignIn : Form
     {
+        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-VET6LBO\MSSQLSERVER01;Initial Catalog=StockFusion;Integrated Security=True;TrustServerCertificate=True");
+
         public SignIn()
         {
             InitializeComponent();
@@ -83,61 +86,6 @@ namespace StockFusion
             this.Hide();
         }
 
-        private bool ValidateUserCredentials(string userName, string password)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-VET6LBO\MSSQLSERVER01;Initial Catalog=StockFusion;Integrated Security=True;TrustServerCertificate=True"))
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [SignUp] WHERE [UserName] = @UserName AND [Password] = @Password", conn))
-                    {
-                        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar).Value = userName.Trim();
-                        cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = password.Trim();
-                        int count = (int)cmd.ExecuteScalar();
-
-                        return count > 0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
-        private string GetUserType(string userName)
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-VET6LBO\MSSQLSERVER01;Initial Catalog=StockFusion;Integrated Security=True;TrustServerCertificate=True"))
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT [UserType] FROM [SignUp] WHERE [UserName] = @UserName", conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserName", userName);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                return reader["UserType"].ToString();
-                            }
-                            else
-                            {
-                                return string.Empty;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return string.Empty;
-            }
-        }
-
         private void roundedButton3_Click(object sender, EventArgs e)
         {
             Forget forget = new Forget();
@@ -157,39 +105,79 @@ namespace StockFusion
 
         private void roundedButton1_Click(object sender, EventArgs e)
         {
-            string userName = roundedTextBox1.Text;
-            string password = roundedTextBox2.Text;
-
-            if (ValidateUserCredentials(userName, password))
+            if (roundedTextBox1.Texts == " " || roundedTextBox2.Texts == " ")
             {
-                string userType = GetUserType(userName);
-                if (userType == "Admin")
-                {
-                    MessageBox.Show("Success");
-                }
-                else if (userType == "FinancialManager")
-                {
-                    // FinancialManager financialManager = new FinancialManager();
-                    // financialManager.Show();
-                }
-                else if (userType == "Manager")
-                {
-                    // Manager manager = new Manager();
-                    // manager.Show();
-                }
-                else if (userType == "Customer")
-                {
-                    // Customer customer = new Customer();
-                    // customer.Show();
-                }
-                this.Hide();
+                MessageBox.Show("Please enter both username and password.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             else
             {
-                labelInvalidPasswordPrompt.Text = "Invalid username or password";
-                labelInvalidPasswordPrompt.Visible = true;
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+
+                    try
+                    {
+                        string query = "SELECT UserType FROM SignUp WHERE Username=@Username AND Password=@Password";
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@Username", roundedTextBox1.Texts);
+                            cmd.Parameters.AddWithValue("@Password", roundedTextBox2.Texts);
+                            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+                            if (table.Rows.Count >= 1)
+                            {
+                                string userType = table.Rows[0]["UserType"].ToString();
+                                if (userType == "Admin")
+                                {
+                                    Admin_main admin_Main = new Admin_main();
+                                    admin_Main.Show();
+                                }
+
+                                else if (userType == "Customer")
+                                {
+                                    //Customer_main customer_Main = new Customer_main();
+                                    //customer_Main.Show();
+                                    MessageBox.Show("Login sucessful for Customer");
+                                }
+                                else if (userType == "Manager")
+                                {
+                                    //Admin_main admin_Main = new Admin_main();
+                                    //admin_Main.Show();
+                                    MessageBox.Show("Login sucessful for Manager");
+                                }
+                                else if (userType == "FinancialManager")
+                                {
+                                    //Admin_main admin_Main = new Admin_main();
+                                    //admin_Main.Show();
+                                    MessageBox.Show("Login sucessful for FinancialManager");
+                                }
+
+                                else
+                                {
+                                    MessageBox.Show("Invalid UserType assigned. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                                this.Hide();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                       
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
             }
         }
     }
 }
-
